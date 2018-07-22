@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CardList from '../Components/CardList';
 import Searchbox from '../Components/Searchbox';
 import Scroll from '../Components/Scroll';
+import ErrorBoundry from '../Components/ErrorBoundry';
 //import { robots } from './robots';
 import './App.css'
 
@@ -18,13 +19,13 @@ class App extends Component {
     }
 
     componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response => {
-                return response.json();
-            })
-            .then(users => {
-                this.setState({ robots: users })
-            });
+    fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => {
+            return response.json();
+        })
+        .then(users => {
+            this.setState({ robots: users })
+        });
 
     }
 
@@ -33,27 +34,30 @@ class App extends Component {
     }
 
     render() {
-        const {robots, searchfield} = this.state;
+        const { robots, searchfield } = this.state;
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchfield.toLowerCase());
         })
 
         if (robots.length === 0) {
             return ( <h1> Loading... </h1>);
-        }
+            }
         else {
-            return (<div className = 'tc' >
-                        <h1 className='h2'> Robofriends </h1> 
-                        <Searchbox searchChange = { this.onSearchChange }/> 
-                        <Scroll >
-                            <CardList robots = { filteredRobots }/> 
-                        </Scroll> 
-                    </div>
+            return ( 
+            <div className = 'tc'>
+                <h1 className = 'h2' > Robofriends </h1>  
+                <Searchbox searchChange = { this.onSearchChange }/>  
+                <Scroll >
+                <ErrorBoundry >
+                    <CardList robots = { filteredRobots }/>  
+                </ErrorBoundry> 
+                </Scroll>  
+            </div>
             );
         }
 
 
-        }
     }
+}
 
-    export default App;
+export default App;

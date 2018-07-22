@@ -2,7 +2,11 @@ import React from 'react';
 import Card from './Card';
 
 const CardList = ({robots}) => {
-   return (
+    if (true) {
+        throw new Error('Nooo');
+    }
+
+    return (
        <div>
         {
             robots.map((user, i) => {
@@ -15,7 +19,7 @@ const CardList = ({robots}) => {
             })
         }
        </div>
-   );
+    );
 }
 
 export default CardList;
